@@ -1,0 +1,7 @@
+[user]
+	name = Sergey Lesnikov
+	email = lesnikm4@gmail.com
+[core]
+	editor = vi
+[init]
+	defaultBranch = main
