@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+#getdata data-lable file.fb2
+getdata(){
+    cat "$2" |
+    xmlstarlet fo --indent-tab | grep -m 1 "$1" |
+    sed -e "s/^[	 ]*<$1>//" -e "s/<\/$1>[	 ]*//" -e "s/^[	 ]*<$1\/>[	 ]*$//" |
+    tr -d '\012\015'
+    }
+
+#getsequence file.fb2
+getsequence(){
+    cat "$1" |
+    xmlstarlet fo --indent-tab |
+    grep -m 1 "<sequence name" |
+    sed -e "s/^[	 ]*<sequence name=\"//" -e "s/\"\ number=\"/\ /" -e "s/\"\/>/\./" |
+    tr -d '\012\015'
+    }
+
+renamebook() {
+    if [[ "$1" == *.fb2 ]] ; then
+    first_name=$(getdata first-name "$1")
+    last_name=$(getdata last-name "$1")
+    book_title=$(getdata book-title "$1")
+    sequence_and_number=$(getsequence "$1")
+    new_name="$first_name $last_name - $sequence_and_number$book_title.fb2"
+        if [[ "$book_title" != "" ]] ; [[ "$1" != "$new_name" ]] ; then
+        echo "OLD: $1"
+            echo "NEW: $new_name"
+        echo "Rename book?(y/N)"
+        read item
+        if [ "$item" == y ]; then
+                mv "$1" "$new_name"
+        fi
+        fi
+    fi
+    }
+
+unzipbook() {
+    if [[ "$1" == *.fb2.zip ]] ; then
+        unzip "$1" -d ./
+        rm "$1"
+    fi
+    }
+
+case $1 in
+    -r|--rename)
+        while [ "$#" -ne "1" ] ; do
+	    renamebook "$2"
+        shift
+        done
+        ;;
+    -u|--unzip)
+        while [ "$#" -ne "1" ] ; do
+	    unzipbook "$2"
+        shift
+        done
+        ;;
+    -ur|--unzip_and_rename_all_in_folder)
+        $0 -u *.fb2.zip; $0 -r *.fb2
+        ;;
+    -h|--help|*)
+        echo "-r|--rename"
+        echo "-u|--unzip"
+        echo "-ur|--unzip_and_rename_all_in_folder"
+        ;;
+esac
