@@ -1,7 +1,6 @@
 set keymap=russian-jcukenwin
 set iminsert=0
 set imsearch=0
-set clipboard=unnamed
 
 set list
 set listchars=tab:>\ ,trail:-
