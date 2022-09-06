@@ -12,11 +12,5 @@ case $1 in
         mouse-key-exchange
         ;;
     -t|--touchpad-set)
-        # Application setting for touchpad
         synclient TapButton1=1 TapButton2=3 RBCornerButton=3 #VertEdgeScroll=1 HorizEdgeScroll=1 PalmDetect=1
-        ;;
-    -p|--pause-key)
-        cd ~/
-        .scripts/aunzip -u
-        ;;
 esac
