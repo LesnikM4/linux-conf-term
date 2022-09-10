@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-text=$(xsel -o)
-[[ "$text" = *[А-Яа-я]* ]] && lang="ENG" || lang="RU"
-trans=$(trans -b -t $lang "$text")
-notify-send "$text" "$trans";
-[[ "$text" = *\n* ]] || echo "$text" ":::" "$trans" >>~/.trans_history
