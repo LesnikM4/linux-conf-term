@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-apt="apt-cyg"
-arg1=""
+command -v apt-cyg && apt="apt-cyg" && arg1="" || apt="sudo apt-get" && arg1="-y"
 
 $apt update
 $apt install $arg1 bash-completion vim grep sed less man diffutils
@@ -10,6 +9,5 @@ $apt install $arg1 gzip tar unzip zip
 $apt install $arg1 dos2unix xmlstarlet
 $apt install $arg1 poppler-utils ||
 $apt install $arg1 poppler
-$apt install $arg1 fdisk dash
+$apt install $arg1 dash
 $apt install $arg1 fdupes
-$apt install $arg1 eyed3
