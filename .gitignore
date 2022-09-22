@@ -10,9 +10,6 @@
 !/.ssh/
 /.ssh/*
 !/.ssh/config
-!/.termux/
-/.termux/*
-!/.termux/termux.properties
 !/.vim/
 /.vim/*
 !/.vim/keymap/
