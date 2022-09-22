@@ -7,7 +7,15 @@ $apt install $arg1 bash-completion vim grep sed less man diffutils
 $apt install $arg1 openssh git tmux curl
 $apt install $arg1 gzip tar unzip zip
 $apt install $arg1 dos2unix xmlstarlet
-$apt install $arg1 poppler-utils ||
-$apt install $arg1 poppler
+$apt install $arg1 poppler-utils || $apt install $arg1 poppler
 $apt install $arg1 dash
-$apt install $arg1 fdupes
+
+;$apt install $arg1 fdupes
+;$apt install $arg1 docker
+;$apt install $arg1 adb fastboot scrcpy
+;$apt install $arg1 xinput
+;$apt install $arg1 translate-shell xsel
+;$apt install $arg1 xfce4 xfce4-goodies
+;$apt install $arg1 grub-custamizer
+;$apt install $arg1 chromium
+;$apt install $arg1 bluetooth blueman
