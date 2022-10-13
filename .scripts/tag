@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+rename() {
+    new_name="$1"
+    new_name=$(echo "$new_name" | sed -e 's/·/-/g')
+    replase_pattern=(.com .COM .ru .net .org .cc .fm .lol .top .me .best kbps .co .pro)
+}
+
+ARR_ADD_TEG=()
+ARR_DEL_TEG=()
+ARR_FIND_TEG=()
+
+ARR_FILE=()
+
+while [ "$#" -ne "0" ]; do
+  case $1 in
+    -a|--add)
+        ARR_ADD_TEG+=("$2")
+	shift
+	shift
+        ;;
+    -r|--remove)
+        ARR_DEL_TEG+=("$2")
+	shift
+	shift
+        ;;
+    -f|--find)
+        ARR_FIND_TEG+=("$2")
+	shift
+	shift
+        ;;
+    -h|--help)
+        echo "-a|--add"
+        echo "-r|--remove"
+#        echo "-f|--find"
+	exit 1
+        ;;
+    *)
+	ARR_FILE+=("$1")
+        shift
+        ;;
+  esac
+done
+
+for FILE_IND in ${!ARR_FILE[@]}; do
+    FILE="${ARR_FILE[$(($FILE_IND - 1))]}"
+    MOD_FILE="${ARR_FILE[$(($FILE_IND - 1))]}"
+
+    for DEL in ${ARR_DEL_TEG[@]}; do
+	for i in 1 2 3; do
+	    MOD_FILE=$(echo "$MOD_FILE" | sed -e "s/[\ ]#${DEL}\([\ \.]\)/\1/")
+	done
+        MOD_FILE=$(echo "$MOD_FILE" | sed -e "s/^#${DEL}[\ ]//g")
+    done
+
+    for ADD in ${ARR_ADD_TEG[@]}; do
+        MOD_FILE=$(echo "$MOD_FILE" | sed -e "s/\(.*\)\(\..*\)/\1\ #$ADD\2/g")
+    done
+    if [ "$FILE" != "$MOD_FILE" ]; then
+        mv "$FILE" "$MOD_FILE"
+    fi
+done
