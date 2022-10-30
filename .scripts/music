@@ -40,8 +40,8 @@ case $1 in
     -t|--tag-remove)
         while [ "$#" -ne "1" ] ; do
             if [[ "$2" == *.mp3 ]] ; then
-		ffmpeg -y -i "$2" -map 0:a -c:a copy -map_metadata -1 "$2.tmp"
-		mv -f "$2.tmp" "$2"
+		ffmpeg -y -i "$2" -map 0:a -c:a copy -map_metadata -1 "$2.tmp.mp3"
+		mv -f "$2.tmp.mp3" "$2"
             fi
         shift
         done
