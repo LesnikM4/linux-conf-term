@@ -37,6 +37,13 @@ renamebook() {
     fi
     }
 
+convert() {
+    if [[ "$1" == *.djvu ]] ; then
+        new_name=$(echo "$1" | sed -e 's/\.djvu/\.pdf/')
+        ddjvu -format=pdf "$1" "$new_name"
+    fi
+}
+
 unzipbook() {
     if [[ "$1" == *.fb2.zip ]] ; then
         unzip "$1" -d ./
@@ -57,12 +64,19 @@ case $1 in
         shift
         done
         ;;
+    -c|--convert)
+        while [ "$#" -ne "1" ] ; do
+            convert "$2"
+        shift
+        done
+	;;
     -ur|--unzip_and_rename_all_in_folder)
         $0 -u *.fb2.zip; $0 -r *.fb2
         ;;
     -h|--help|*)
         echo "-r|--rename"
         echo "-u|--unzip"
+	echo "-c|--convert_djvu_to_pdf"
         echo "-ur|--unzip_and_rename_all_in_folder"
         ;;
 esac
