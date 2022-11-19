@@ -41,6 +41,7 @@ convert() {
     if [[ "$1" == *.djvu ]] ; then
         new_name=$(echo "$1" | sed -e 's/\.djvu/\.pdf/')
         ddjvu -format=pdf "$1" "$new_name"
+        [ -a "$new_name" ] && rm "$1"
     fi
 }
 
@@ -76,7 +77,7 @@ case $1 in
     -h|--help|*)
         echo "-r|--rename"
         echo "-u|--unzip"
-	echo "-c|--convert_djvu_to_pdf"
+	echo "-c|--convert"
         echo "-ur|--unzip_and_rename_all_in_folder"
         ;;
 esac
