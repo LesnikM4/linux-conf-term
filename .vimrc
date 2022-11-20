@@ -2,10 +2,12 @@ set keymap=russian-jcukenwin
 set iminsert=0
 set imsearch=0
 
+set mouse=
 set list
 set listchars=tab:>\ ,trail:-
 set shortmess+=I
 
+set ignorecase
 set smartcase
 
 set number
