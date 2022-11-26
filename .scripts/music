@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-command -v ffmpeg || echo "Please, install ffmpeg" && exit
+[ -z $(command -v ffmpeg) ] && echo "Please, install ffmpeg" && exit
 
 rename() {
     new_name="$1"
