@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+command -v ffmpeg || echo "Please, install ffmpeg" && exit
+
 rename() {
     new_name="$1"
     replase_pattern=(.com .COM .ru .net .org .cc .fm .lol .top .me .best kbps .co .pro)
