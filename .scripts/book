@@ -24,7 +24,7 @@ renamebook() {
     book_title=$(getdata book-title "$1")
     sequence_and_number=$(getsequence "$1")
     new_name="$first_name $last_name - $sequence_and_number$book_title.fb2"
-    new_name=`echo $new_name`
+    new_name=`echo $new_name | sed -e 's/:/./'`
         if [[ "$book_title" != "" ]] ; [[ "$new_name" != " - " ]] ; [[ "$1" != "$new_name" ]]; then
         echo "OLD: $1"
             echo "NEW: $new_name"
