@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+[ -z $(command -v unzip) ] && echo "Please, install unzip" && exit
+
 #getdata data-lable file.fb2
 getdata(){
     cat "$2" |
@@ -47,8 +49,8 @@ convert() {
 
 unzipbook() {
     if [[ "$1" == *.fb2.zip ]] ; then
-        unzip "$1" -d ./
-        rm "$1"
+	DIR=$(dirname "$1")
+        unzip "$1" -d "$DIR" && rm "$1"
     fi
     }
 
