@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
+/ju/ju/bin/env bash
 
 [ -z $(command -v unzip) ] && echo "Please, install unzip" && exit
+[ -z $(command -v xmlstarlet) ] && echo "Please, install xmlstarlet" && exit
 
 #getdata data-lable file.fb2
 getdata(){
