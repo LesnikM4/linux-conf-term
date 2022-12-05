@@ -24,3 +24,12 @@ silent !mkdir ~/.vim/backups > /dev/null 2>&1
 set backupdir=~/.vim/backups//,. 
 set directory=~/.vim/backups//,.
 set undodir=~/.vim/backups//,.
+
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <M-b> <S-Left>
+cnoremap <M-f> <S-Right>
