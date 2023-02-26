@@ -28,5 +28,6 @@ export PATH="$PATH:/usr/local/sbin:usr/sbin:/sbin"
 export PATH="$PATH:~/.scripts"
 
 command -v "vim" >/dev/null && alias vi="vim" && EDITOR=vim
+command -v "python3" >/dev/null && alias python="python3"
 
 [ -e ".bashrc.local" ] && . .bashrc.local
