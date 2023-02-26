@@ -4,7 +4,7 @@ case $- in
 esac
 
 HISTCONTROL=ignoreboth
-PROMPT_COMMAND=`history -a`
+PROMPT_COMMAND="history -a; history -c; history -r"
 shopt -s histappend
 
 shopt -s checkwinsize
