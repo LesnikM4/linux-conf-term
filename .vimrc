@@ -6,6 +6,7 @@ set imsearch=0
 
 set mouse=
 set list
+set ts=4 expandtab
 set listchars=tab:>\ ,trail:-
 set shortmess+=I
 
