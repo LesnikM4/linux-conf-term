@@ -36,3 +36,15 @@ cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 cnoremap <M-b> <S-Left>
 cnoremap <M-f> <S-Right>
+
+" vim -b : edit binary using xxd-format!
+augroup Binary
+  au!
+  au BufReadPre  *.bin,*.ft,*.fw let &bin=1
+  au BufReadPost *.bin,*.ft,*.fw if &bin | %!xxd
+  au BufReadPost *.bin,*.ft,*.fw set ft=xxd | endif
+  au BufWritePre *.bin,*.ft,*.fw if &bin | %!xxd -r
+  au BufWritePre *.bin,*.ft,*.fw endif
+  au BufWritePost *.bin,*.ft,*.fw if &bin | %!xxd
+  au BufWritePost *.bin,*.ft,*.fw set nomod | endif
+augroup END
