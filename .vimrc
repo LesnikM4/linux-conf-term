@@ -12,6 +12,7 @@ set shortmess+=I
 
 set ignorecase
 set smartcase
+set hlsearch
 
 set number
 
