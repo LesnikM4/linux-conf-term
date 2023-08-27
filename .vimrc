@@ -14,6 +14,7 @@ set ignorecase
 set smartcase
 set hlsearch
 
+set background=
 set number
 
 set softtabstop=4

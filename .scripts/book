@@ -5,6 +5,7 @@
 
 #getdata data-lable file.fb2
 getdata(){
+#TODO convert data windows code in utf-8
     cat "$2" |
     xmlstarlet fo --indent-tab | grep -m 1 "$1" |
     sed -e "s/^[	 ]*<$1>//" -e "s/<\/$1>[	 ]*//" -e "s/^[	 ]*<$1\/>[	 ]*$//" |
@@ -31,13 +32,13 @@ renamebook() {
     new_name=`echo $new_name | sed -e 's/:/./'`
     [ -n "$DIR" ] && new_name="$DIR/$new_name"
         if [[ "$book_title" != "" ]] && [[ "$new_name" != "- .fb2" ]] && [[ "$1" != "$new_name" ]]; then
-        echo "OLD: $1"
-        echo "NEW: $new_name"
-        echo "Rename book?(y/N)"
-        read item
-        if [ "$item" == y ]; then
-                mv "$1" "$new_name"
-        fi
+            echo "OLD: $1"
+            echo "NEW: $new_name"
+            echo "Rename book?(y/N)"
+            read item
+            if [ "$item" == y ]; then
+                    mv "$1" "$new_name"
+            fi
         fi
     fi
     }

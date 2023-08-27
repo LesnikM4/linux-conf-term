@@ -5,7 +5,7 @@ command -v apt-cyg && apt="apt-cyg" && arg1=""
 command -v termux-backup && apt="apt-get" && arg1="-yqq"
 
 $apt update
-$apt install $arg1 bash-completion vim grep sed less man diffutils
+$apt install $arg1 bash-completion vim grep sed less man diffutils rename
 $apt install $arg1 ssh || $apt install $arg1 openssh
 $apt install $arg1 git tmux curl
 $apt install $arg1 gzip tar unzip zip
