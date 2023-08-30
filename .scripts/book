@@ -17,8 +17,9 @@ getsequence(){
     cat "$1" |
     xmlstarlet fo --indent-tab |
     grep -m 1 -e "<sequence name" -e "<sequence number" |
-    sed -e "s/^[	 ]*<sequence number=\"\(.*\)\"\ name=\"\(.*\)\"\/>/\2\ \1\./" |
-    sed -e "s/^[	 ]*<sequence name=\"\(.*\)\"\ number=\"\(.*\)\"\/>/\1\ \2\./" |
+    sed -e "s/^[	 ]*<sequence number=\"\(.*\)\"\ name=\"\(.*\)\"\/>*/\2\ \1\./" |
+    sed -e "s/^[	 ]*<sequence name=\"\(.*\)\"\ number=\"\(.*\)\"\/>*/\1\ \2\./" |
+    sed -e "s/^[	 ]*<sequence name=\"\(.*\)\"\/>*/\1\./" |
     tr -d '\012\015'
     }
 
