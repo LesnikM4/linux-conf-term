@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+[ -z $(command -v convert) ] && echo "Please, install imagemagick" && exit
+[ -z $(command -v dwebp) ] && echo "Please, install webp" && exit
+
+case $1 in
+  -c|--convert)
+    while [ "$#" -ne "1" ] ; do
+      if [[ "$2" == *.webp ]] ; then
+        new_name=$(echo "$2" | sed -e 's/.webp/.jpg/')
+        convert "$2" "$new_name" && rm "$2"
+      fi
+      if [[ "$2" == *.webpNEW ]] ; then
+        new_name=$(echo "$2" | sed -e 's/.webp/.jpg/')
+        magick "$2" "$new_name" && rm "$2"
+      fi
+      shift
+    done
+    ;;
+  -h|--help|*)
+    echo "-c|--convert"
+    ;;
+esac

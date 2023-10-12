@@ -3,68 +3,68 @@
 [ -z $(command -v ffmpeg) ] && echo "Please, install ffmpeg" && exit
 
 rename() {
-    new_name="$1"
-    replase_pattern=(.com .COM .ru .net .org .cc .fm .lol .top .me .best kbps .co .pro)
-    for i in ${replase_pattern[*]}; do
-        pattern="s/([^(]*$i)//"
-        new_name=$(echo "$new_name" | sed -e $pattern )
-    done
-    new_name=$(echo "$new_name" | sed -e 's/\[*.net\]//' -e 's/muzonov_net//')
-    new_name=$(echo "$new_name" | sed -e 's/_-_/\ -\ /g')
-    new_name=$(echo "$new_name" | sed -e 's/·/-/g')
-    new_name=$(echo "$new_name" | sed -e 's/–/-/g')
-    new_name=$(echo "$new_name" | sed -e 's/_/\ /g')
-    new_name=$(echo "$new_name" | sed -e 's/\([^\ ].\)-\([^\ ].\)/\1\ \2/g')
-    new_name=$(echo "$new_name" | sed -e 's/^\ //' -e 's/\ \.mp3/\.mp3/')
-    new_name=$(echo "$new_name" | sed -e 's/\b./\u&/g')
-    new_name=$(echo "$new_name" | sed -e 's/\.Mp3/\.mp3/g')
-    echo "$new_name"
+  new_name="$1"
+  replase_pattern=(.com .COM .ru .net .org .cc .fm .lol .top .me .best kbps .co .pro)
+  for i in ${replase_pattern[*]}; do
+    pattern="s/([^(]*$i)//"
+    new_name=$(echo "$new_name" | sed -e $pattern )
+  done
+  new_name=$(echo "$new_name" | sed -e 's/\[*.net\]//' -e 's/muzonov_net//')
+  new_name=$(echo "$new_name" | sed -e 's/_-_/\ -\ /g')
+  new_name=$(echo "$new_name" | sed -e 's/·/-/g')
+  new_name=$(echo "$new_name" | sed -e 's/–/-/g')
+  new_name=$(echo "$new_name" | sed -e 's/_/\ /g')
+  new_name=$(echo "$new_name" | sed -e 's/\([^\ ].\)-\([^\ ].\)/\1\ \2/g')
+  new_name=$(echo "$new_name" | sed -e 's/^\ //' -e 's/\ \.mp3/\.mp3/')
+  new_name=$(echo "$new_name" | sed -e 's/\b./\u&/g')
+  new_name=$(echo "$new_name" | sed -e 's/\.Mp3/\.mp3/g')
+  echo "$new_name"
 }
 
 case $1 in
-    -r|--rename)
-        while [ "$#" -ne "1" ] ; do
-            if [[ "$2" == *.mp3 ]] ; then
-                new_name=$(rename "$2")
-                if [[ "$2" != "$new_name" ]] ; then
-                    echo "OLD: $2"
-                    echo "NEW: $new_name"
-                    echo "Rename music?(y/N)"
-                    read item
-                    if [ "$item" == y ]; then
-                            mv "$2" "$new_name"
-                    fi
-                fi
-            fi
-        shift
-        done
-        ;;
-    -t|--tag-remove)
-        while [ "$#" -ne "1" ] ; do
-            if [[ "$2" == *.mp3 ]] ; then
-		ffmpeg -y -i "$2" -map 0:a -c:a copy -map_metadata -1 "$2.tmp.mp3"
-		mv -f "$2.tmp.mp3" "$2"
-            fi
-        shift
-        done
-        ;;
-    -c|--convert)
-        while [ "$#" -ne "1" ] ; do
-            if [[ "$2" == *.mp4 ]] ; then
-		new_name=$(echo "$2" | sed -e 's/.mp4/.mp3/')
-		ffmpeg -i "$2" "$new_name" && rm "$2"
-            fi
-            if [[ "$2" == *.ogg ]] ; then
-		new_name=$(echo "$2" | sed -e 's/.ogg/.mp3/')
-		ffmpeg -i "$2" "$new_name" && rm "$2"
-	    ehco 1
-            fi
-        shift
-        done
-	;;
-    -h|--help|*)
-        echo "-c|--convert"
-        echo "-t|--tag-remove"
-        echo "-r|--rename"
-        ;;
+  -r|--rename)
+    while [ "$#" -ne "1" ] ; do
+      if [[ "$2" == *.mp3 ]] ; then
+        new_name=$(rename "$2")
+        if [[ "$2" != "$new_name" ]] ; then
+          echo "OLD: $2"
+          echo "NEW: $new_name"
+          echo "Rename music?(y/N)"
+          read item
+          if [ "$item" == y ]; then
+            mv "$2" "$new_name"
+          fi
+        fi
+      fi
+      shift
+      done
+      ;;
+  -t|--tag-remove)
+    while [ "$#" -ne "1" ] ; do
+      if [[ "$2" == *.mp3 ]] ; then
+        ffmpeg -y -i "$2" -map 0:a -c:a copy -map_metadata -1 "$2.tmp.mp3"
+        mv -f "$2.tmp.mp3" "$2"
+      fi
+      shift
+    done
+    ;;
+  -c|--convert)
+    while [ "$#" -ne "1" ] ; do
+      if [[ "$2" == *.mp4 ]] ; then
+        new_name=$(echo "$2" | sed -e 's/.mp4/.mp3/')
+        ffmpeg -i "$2" "$new_name" && rm "$2"
+      fi
+      if [[ "$2" == *.ogg ]] ; then
+        new_name=$(echo "$2" | sed -e 's/.ogg/.mp3/')
+        ffmpeg -i "$2" "$new_name" && rm "$2"
+        ehco 1
+      fi
+      shift
+    done
+    ;;
+  -h|--help|*)
+    echo "-c|--convert"
+    echo "-t|--tag-remove"
+    echo "-r|--rename"
+    ;;
 esac

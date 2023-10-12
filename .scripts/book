@@ -6,25 +6,25 @@
 #getdata data-lable file.fb2
 getdata(){
 #TODO convert data windows code in utf-8
-    cat "$2" |
-    xmlstarlet fo --indent-tab | grep -m 1 "$1" |
-    sed -e "s/^[	 ]*<$1>//" -e "s/<\/$1>[	 ]*//" -e "s/^[	 ]*<$1\/>[	 ]*$//" |
-    tr -d '\012\015'
-    }
+  cat "$2" |
+  xmlstarlet fo --indent-tab | grep -m 1 "$1" |
+  sed -e "s/^[	 ]*<$1>//" -e "s/<\/$1>[	 ]*//" -e "s/^[	 ]*<$1\/>[	 ]*$//" |
+  tr -d '\012\015'
+}
 
 #getsequence file.fb2
 getsequence(){
-    cat "$1" |
-    xmlstarlet fo --indent-tab |
-    grep -m 1 -e "<sequence name" -e "<sequence number" |
-    sed -e "s/^[	 ]*<sequence number=\"\(.*\)\"\ name=\"\(.*\)\"\/>*/\2\ \1\./" |
-    sed -e "s/^[	 ]*<sequence name=\"\(.*\)\"\ number=\"\(.*\)\"\/>*/\1\ \2\./" |
-    sed -e "s/^[	 ]*<sequence name=\"\(.*\)\"\/>*/\1\./" |
-    tr -d '\012\015'
-    }
+  cat "$1" |
+  xmlstarlet fo --indent-tab |
+  grep -m 1 -e "<sequence name" -e "<sequence number" |
+  sed -e "s/^[	 ]*<sequence number=\"\(.*\)\"\ name=\"\(.*\)\"\/>*/\2\ \1\./" |
+  sed -e "s/^[	 ]*<sequence name=\"\(.*\)\"\ number=\"\(.*\)\"\/>*/\1\ \2\./" |
+  sed -e "s/^[	 ]*<sequence name=\"\(.*\)\"\/>*/\1\./" |
+  tr -d '\012\015'
+}
 
 renamebook() {
-    if [[ "$1" == *.fb2 ]] ; then
+  if [[ "$1" == *.fb2 ]] ; then
     DIR=$(dirname "$1")
     first_name=$(getdata first-name "$1")
     last_name=$(getdata last-name "$1")
@@ -33,59 +33,59 @@ renamebook() {
     new_name="$first_name $last_name - $sequence_and_number$book_title.fb2"
     new_name=`echo $new_name | sed -e 's/:/./'`
     [ -n "$DIR" ] && new_name="$DIR/$new_name"
-        if [[ "$book_title" != "" ]] && [[ "$new_name" != "- .fb2" ]] && [[ "$1" != "$new_name" ]]; then
-            echo "OLD: $1"
-            echo "NEW: $new_name"
-            echo "Rename book?(y/N)"
-            read item
-            if [ "$item" == y ]; then
-                    mv "$1" "$new_name"
-            fi
-        fi
+    if [[ "$book_title" != "" ]] && [[ "$new_name" != "- .fb2" ]] && [[ "$1" != "$new_name" ]]; then
+      echo "OLD: $1"
+      echo "NEW: $new_name"
+      echo "Rename book?(y/N)"
+      read item
+      if [ "$item" == y ]; then
+        mv "$1" "$new_name"
+      fi
     fi
-    }
+  fi
+}
 
 convert() {
-    if [[ "$1" == *.djvu ]] ; then
-        new_name=$(echo "$1" | sed -e 's/\.djvu/\.pdf/')
-        ddjvu -format=pdf "$1" "$new_name"
-        [ -a "$new_name" ] && rm "$1"
-    fi
+  if [[ "$1" == *.djvu ]] ; then
+    new_name=$(echo "$1" | sed -e 's/\.djvu/\.pdf/')
+    ddjvu -format=pdf "$1" "$new_name"
+    [ -a "$new_name" ] && rm "$1"
+  fi
 }
 
 unzipbook() {
-    if [[ "$1" == *.fb2.zip ]] ; then
-	DIR=$(dirname "$1")
-        unzip "$1" -d "$DIR" && rm "$1"
-    fi
-    }
+  if [[ "$1" == *.fb2.zip ]] ; then
+  DIR=$(dirname "$1")
+    unzip "$1" -d "$DIR" && rm "$1"
+  fi
+}
 
 case $1 in
-    -r|--rename)
-        while [ "$#" -ne "1" ] ; do
-	    renamebook "$2"
-        shift
-        done
-        ;;
-    -u|--unzip)
-        while [ "$#" -ne "1" ] ; do
-	    unzipbook "$2"
-        shift
-        done
-        ;;
-    -c|--convert)
-        while [ "$#" -ne "1" ] ; do
-            convert "$2"
-        shift
-        done
-	;;
-    -ur|--unzip_and_rename_all_in_folder)
-        $0 -u *.fb2.zip; $0 -r *.fb2
-        ;;
-    -h|--help|*)
-        echo "-r|--rename"
-        echo "-u|--unzip"
-	echo "-c|--convert"
-        echo "-ur|--unzip_and_rename_all_in_folder"
-        ;;
+  -r|--rename)
+    while [ "$#" -ne "1" ] ; do
+      renamebook "$2"
+      shift
+    done
+    ;;
+  -u|--unzip)
+    while [ "$#" -ne "1" ] ; do
+      unzipbook "$2"
+      shift
+    done
+    ;;
+  -c|--convert)
+    while [ "$#" -ne "1" ] ; do
+      convert "$2"
+      shift
+    done
+    ;;
+  -ur|--unzip_and_rename_all_in_folder)
+    $0 -u *.fb2.zip; $0 -r *.fb2
+    ;;
+  -h|--help|*)
+    echo "-r|--rename"
+    echo "-u|--unzip"
+    echo "-c|--convert"
+    echo "-ur|--unzip_and_rename_all_in_folder"
+    ;;
 esac
