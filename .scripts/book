@@ -42,6 +42,7 @@ renamebook() {
     sequence_and_number=$(getsequence "$1")
     new_name="$first_name $last_name - $sequence_and_number$book_title.fb2"
     new_name=`echo $new_name | sed -e 's/:/./'`
+    new_name=`echo $new_name | sed -e 's/?//'`
     [ -n "$DIR" ] && new_name="$DIR/$new_name"
     [ -n "$DIR" ] && old_name="$DIR/$1"
     if [[ "$book_title" != "" ]] && [[ "$new_name" != "- .fb2" ]] && [[ "$DIR/$1" != "$new_name" ]]; then
