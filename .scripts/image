@@ -13,7 +13,16 @@ case $1 in
       shift
     done
     ;;
+  -m|--min)
+    while [ "$#" -ne "1" ] ; do
+      if [[ "$2" == *.jpg ]] ; then
+        mogrify -resize 600x600! "$2"
+      fi
+      shift
+    done
+    ;;
   -h|--help|*)
     echo "-c|--convert"
+    echo "-m|--min"
     ;;
 esac
